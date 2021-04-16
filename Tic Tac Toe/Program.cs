@@ -44,9 +44,10 @@ namespace Tic_Tac_Toe
                 string MulaiTidak = Console.ReadLine();
                 if (MulaiTidak == "Start" || MulaiTidak == "start")
                 {
+                    bool Loop = true;
                     Console.SetCursorPosition(3, 5);
                     Console.WriteLine("            ");
-                    for (; ; )
+                    for (; Loop; )
                     {
                         // Game Loop
                         int AksiKe = 0;
@@ -171,27 +172,72 @@ namespace Tic_Tac_Toe
                                         SudahBerisi.Add(AngkaAksiUser);
                                         Board = LakukanAksi(Board, AngkaAksiUser, 1);
                                         UpdateBoard(Board);
-
-                                        //Masuk ke otomatis Blokir menang
-                                        for (; AksiKe < 9;)
+                                        if ((AngkaAksiKomputer == 1 && AngkaAksiUser ==9 )|| (AngkaAksiKomputer == 3 && AngkaAksiUser == 7) || (AngkaAksiKomputer == 7 && AngkaAksiUser == 3) || (AngkaAksiKomputer == 9 && AngkaAksiUser == 1))
                                         {
-                                            AksiKe++;
-                                            if (AksiKe % 2 == 0)
+                                            if ((AngkaAksiKomputer == 1 && AngkaAksiUser == 9) || (AngkaAksiKomputer == 9 && AngkaAksiUser == 1))
                                             {
-                                                AngkaAksiKomputer = CariAksiKomputer(SudahBerisi, OtomaticNyerangBlokir(Board, SudahBerisi));
+                                                AksiKe++;
+                                                AngkaAksiKomputer = CariAksiKomputer(SudahBerisi, 3,7);
                                                 SudahBerisi.Add(AngkaAksiKomputer);
                                                 Board = LakukanAksi(Board, AngkaAksiKomputer, 2);
                                                 Console.WriteLine(AngkaAksiKomputer);
                                                 UpdateBoard(Board);
-                                                if (CekMenang(Board) > -1) { break; }
                                             }
                                             else
                                             {
-                                                AngkaAksiUser = CariAksiUser(SudahBerisi);
-                                                SudahBerisi.Add(AngkaAksiUser);
-                                                Board = LakukanAksi(Board, AngkaAksiUser, 1);
+                                                AksiKe++;
+                                                AngkaAksiKomputer = CariAksiKomputer(SudahBerisi, 1,9);
+                                                SudahBerisi.Add(AngkaAksiKomputer);
+                                                Board = LakukanAksi(Board, AngkaAksiKomputer, 2);
+                                                Console.WriteLine(AngkaAksiKomputer);
                                                 UpdateBoard(Board);
-                                                if (CekMenang(Board) > -1) { break; }
+                                            }
+                                            //Masuk ke otomatis Blokir menang
+                                            for (; AksiKe < 9;)
+                                            {
+                                                AksiKe++;
+                                                if (AksiKe % 2 == 0)
+                                                {
+                                                    AngkaAksiKomputer = CariAksiKomputer(SudahBerisi, OtomaticNyerangBlokir(Board, SudahBerisi));
+                                                    SudahBerisi.Add(AngkaAksiKomputer);
+                                                    Board = LakukanAksi(Board, AngkaAksiKomputer, 2);
+                                                    Console.WriteLine(AngkaAksiKomputer);
+                                                    UpdateBoard(Board);
+                                                    if (CekMenang(Board) > -1) { break; }
+                                                }
+                                                else
+                                                {
+                                                    AngkaAksiUser = CariAksiUser(SudahBerisi);
+                                                    SudahBerisi.Add(AngkaAksiUser);
+                                                    Board = LakukanAksi(Board, AngkaAksiUser, 1);
+                                                    UpdateBoard(Board);
+                                                    if (CekMenang(Board) > -1) { break; }
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            //Masuk ke otomatis Blokir menang
+                                            for (; AksiKe < 9;)
+                                            {
+                                                AksiKe++;
+                                                if (AksiKe % 2 == 0)
+                                                {
+                                                    AngkaAksiKomputer = CariAksiKomputer(SudahBerisi, OtomaticNyerangBlokir(Board, SudahBerisi));
+                                                    SudahBerisi.Add(AngkaAksiKomputer);
+                                                    Board = LakukanAksi(Board, AngkaAksiKomputer, 2);
+                                                    Console.WriteLine(AngkaAksiKomputer);
+                                                    UpdateBoard(Board);
+                                                    if (CekMenang(Board) > -1) { break; }
+                                                }
+                                                else
+                                                {
+                                                    AngkaAksiUser = CariAksiUser(SudahBerisi);
+                                                    SudahBerisi.Add(AngkaAksiUser);
+                                                    Board = LakukanAksi(Board, AngkaAksiUser, 1);
+                                                    UpdateBoard(Board);
+                                                    if (CekMenang(Board) > -1) { break; }
+                                                }
                                             }
                                         }
                                     }
@@ -423,17 +469,27 @@ namespace Tic_Tac_Toe
                         ResetInfoAksi(1);
                         Console.SetCursorPosition(59, 15);
                         Thread.Sleep(750);
-
-                        Console.SetCursorPosition((Console.WindowWidth - 16) / 2, 19);
-                        Console.WriteLine("Mulai lagi ?");
-                        Console.SetCursorPosition((Console.WindowWidth - 16) / 2, 20);
-                        Console.Write("Ya/Tidak : ");
-                        UlangTidak = Console.ReadLine();
-                        Console.SetCursorPosition((Console.WindowWidth - 16) / 2, 20);
-                        Console.Write("Ya/Tidak :                ");
-                        if (UlangTidak == "Tidak" || UlangTidak == "tidak")
+                        for (; ; )
                         {
-                            break;
+                            Console.SetCursorPosition((Console.WindowWidth - 16) / 2, 19);
+                            Console.WriteLine("Mulai lagi ?");
+                            Console.SetCursorPosition((Console.WindowWidth - 16) / 2, 20);
+                            Console.Write("Ya/Tidak : ");
+                            UlangTidak = Console.ReadLine();
+                            Console.SetCursorPosition((Console.WindowWidth - 16) / 2, 20);
+                            Console.Write("Ya/Tidak :                ");
+                            if (UlangTidak == "Tidak" || UlangTidak == "tidak")
+                            {
+                                Loop = false;
+                                break;
+                            }
+                            else
+                            {
+                                if(UlangTidak == "Ya" || UlangTidak == "ya")
+                                {
+                                    break;
+                                }
+                            }
                         }
                     }
                 }
@@ -895,18 +951,18 @@ namespace Tic_Tac_Toe
             if(Score == 0) 
             { 
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine(0); 
+                Console.WriteLine(0+"    "); 
             }
             else { 
                 if (Score > 0) 
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine(Score);
+                    Console.WriteLine(Score + "    ");
                 }
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(Score);
+                    Console.WriteLine(Score + "    ");
                 } 
             } Console.ForegroundColor = ConsoleColor.White;
         }
